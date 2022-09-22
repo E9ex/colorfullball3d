@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Transactions;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,6 +9,8 @@ using UnityEngine.Windows.Speech;
 
 public class Player : MonoBehaviour
 {
+    public UIManager uimanager;
+    public camerashake camesahake;
     public GameObject cam;
     public GameObject vectorforward;
     public GameObject vectorback;
@@ -67,6 +70,9 @@ public class Player : MonoBehaviour
     {
         if (hit.gameObject.CompareTag("obstacles1"))
         {
+            camesahake.camerashakecall();
+            uimanager.StartCoroutine("whiteeffect");
+            
             foreach (GameObject item in fractureItems)
             {
                 gameObject.GetComponent<MeshRenderer>().enabled = false;

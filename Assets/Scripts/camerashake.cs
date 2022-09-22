@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class camerashake : MonoBehaviour
 {
+    private bool shakecontrol = false;
     public IEnumerator camerashakes (float duration, float magnitude)//magnittude titreşimin buyuklüyü bunu dısardan vereceğiz.
     {
         Vector3 originalpos = transform.localPosition;
@@ -19,5 +20,15 @@ public class camerashake : MonoBehaviour
         }
 
         transform.localPosition = originalpos;
+    }
+
+    public void camerashakecall()
+    {
+        if (shakecontrol==false)// false ise bir daha döndürmesin kamera sadece bir kere sallansın istedik.
+        {
+            StartCoroutine(camerashakes(0.22f, 0.04f));
+            shakecontrol = true;
+        }
+        
     }
 }
