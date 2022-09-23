@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Transactions;
 using Unity.VisualScripting;
@@ -21,10 +22,14 @@ public class Player : MonoBehaviour
 
     public int forwardspeed;
     // Start is called before the first frame update
-    public void FixedUpdate()
+    public void Start()
     {
-        if (variables.firsttouch ==
-            1) //dokundgumuzda böyle olsun yani... (bu arada Variables değil o.Aslında dosya ismi.)
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public void Update()
+    {
+        if (variables.firsttouch ==1) //dokundgumuzda böyle olsun yani... (bu arada Variables değil o.Aslında dosya ismi.)
         {
             transform.position += new Vector3(0, 0, forwardspeed * Time.deltaTime);
             cam.transform.position += new Vector3(0, 0, forwardspeed * Time.deltaTime);
@@ -48,8 +53,8 @@ public class Player : MonoBehaviour
             if (touch.phase == TouchPhase.Moved)
             {
                 /* bak kardeşim şimdi burda transform ilerde cok buyuk hatalar alabilirm böyle yapınca kutuların içinden geçiyor geçmemesi lazim // transform.position*/
-                rb.velocity = new Vector3(touch.deltaPosition.x * speed, transform.position.y,
-                    touch.deltaPosition.y * speed);
+                rb.velocity = new Vector3(touch.deltaPosition.x * speed * Time.deltaTime, transform.position.y,
+                    touch.deltaPosition.y * speed * Time.deltaTime);
                 // böyle yaparsam yukarda yazdıgım gibi küplerin içinden geçmez.
             }
 
@@ -70,39 +75,22 @@ public class Player : MonoBehaviour
     {
         if (hit.gameObject.CompareTag("obstacles1"))
         {
-            camesahake.camerashakecall();
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+           camesahake.camerashakecall();
             uimanager.StartCoroutine("whiteeffect");
             
             foreach (GameObject item in fractureItems)
             {
-                gameObject.GetComponent<MeshRenderer>().enabled = false;
-                item.GetComponentInChildren<SphereCollider>().enabled = true;
+                
+                item.GetComponent<SphereCollider>().enabled = true;
                
-                item.GetComponentInChildren<Rigidbody>().isKinematic = false;
+                item.GetComponent<Rigidbody>().isKinematic = false;
             }
         }
         
     }
 }
 
-    
-
-    /*  public GameObject[] fractureItems;
-      public void OnCollisionEnter(Collision hit)
-      {
-          if (hit.gameObject.CompareTag("obstacles1"))
-          {
-              foreach (GameObject item in fractureItems)
-              {
-                  
-                  item.GetComponentInChildren<SphereCollider>().enabled = true;
-                 
-                  item.GetComponentInChildren<Rigidbody>().isKinematic = false;
-              }
-          }
-          
-      }
-      */
 
 
 
@@ -113,31 +101,6 @@ public class Player : MonoBehaviour
 
 
 
-/* public Gameobject[] fractureitems;
-/* public void OnCollisionEnter(Collision hit)
-    {
-        if (hit.gameObject.CompareTag("obstacles1"))
-        {
-            gameObject.transform.GetChild(0).gameobject.setactive(false);
-        }
-        3d shattered sphere bulamadıgım için top kareye degdiğin parçalanması gerekmesi gerekirken böyle olmayacak malesef 
-        ben gene de kodları yazim.
-        
-        
-        
-        
-    shattered sphere ile iç içe koyulup eşitliyoruz. tüm parçaları sphere içine atiyoz child oluyorlar. playerin mesh renderınnı silebiliriz.tum fracturelara rigidboy ekleyip massına ekleme yapıyoruz.
-    
-    sphere collider veya capsule collider yda meshcollider eklioz.3unden biri.
-    radiuslarını küçültmemiz lazim.fractureları kinematic yapıyoruz. sonra;;fractureların hepsini sırasıyla koyuyoruz unitydeki liste.
-    foreach(GameObject item in fractureitems)
-    {
-        item.getcomponent<spherecollider>().enabled=true;
-        item.getcomponent<rigidbody>().iskinematic=false;
-    
-    }
-    
-    
-    
-       */
+
+
 

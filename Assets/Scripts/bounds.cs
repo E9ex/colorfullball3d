@@ -15,5 +15,6 @@ public class bounds : MonoBehaviour
         Vector3 viewPos = transform.position;
         viewPos.z = Mathf.Clamp(viewPos.z, vectorback.transform.position.z, vectorforward.transform.position.z);
         viewPos.x = Mathf.Clamp(viewPos.x, vectorleft.transform.position.x, vectorright.transform.position.x);
+        transform.position = viewPos;
     }
 }
